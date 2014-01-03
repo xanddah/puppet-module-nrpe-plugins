@@ -36,8 +36,13 @@ class nrpe_plugins (
       $default_nrpe_user    = 'nagios'
       $default_nrpe_group   = 'nagios'
     }
+    'Debian': {
+      $default_nrpe_package = 'nagios-nrpe-server'
+      $default_nrpe_user    = 'nagios'
+      $default_nrpe_group   = 'nagios'
+    }
     default: {
-      fail("nrpe_plugins supports osfamilies RedHat, Suse and Solaris. Detected osfamily is <${::osfamily}>.")
+      fail("nrpe_plugins supports osfamilies RedHat, Suse, Solaris and Debian (Ubuntu). Detected osfamily is <${::osfamily}>.")
     }
   }
 
