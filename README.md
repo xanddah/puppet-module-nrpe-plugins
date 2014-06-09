@@ -64,3 +64,8 @@ Boolean value to deside if unmanaged files should be purged.
 
 - *Default*: true
 
+checksum
+--------
+The checksum type to use when determining whether to replace a file's contents. Valid values are: 'md5', 'md5lite', 'sha256', 'sha256lite', 'mtime', 'ctime' & 'none'.
+
+- *Default*: md5

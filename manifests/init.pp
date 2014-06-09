@@ -16,6 +16,7 @@ class nrpe_plugins (
   $destination         = undef,
   $purge               = true,
   $force               = true,
+  $checksum            = 'md5',
 ) {
 
   # OS platform defaults
@@ -83,14 +84,25 @@ class nrpe_plugins (
 
   validate_absolute_path($destination)
 
+  # Validate $checksum
+  case $checksum {
+    'md5', 'md5lite', 'sha256', 'sha256lite', 'mtime', 'ctime', 'none': {
+      # noop, these are valid values
+    }
+    default: {
+      fail("Valid values for \$checksum are \'md5\', \'md5lite\', \'sha256\', \'sha256lite\', \'mtime\', \'ctime\' or \'none\'.  Specified value is ${checksum}")
+    }
+  }
+
   file { $destination :
-    ensure  => $nrpe_plugins_ensure,
-    source  => $source,
-    recurse => true,
-    purge   => $purge,
-    force   => $force,
-    owner   => $nrpe_user_real,
-    group   => $nrpe_group_real,
-    require => Package[$nrpe_package_real],
+    ensure   => $nrpe_plugins_ensure,
+    source   => $source,
+    recurse  => true,
+    purge    => $purge,
+    force    => $force,
+    checksum => $checksum,
+    owner    => $nrpe_user_real,
+    group    => $nrpe_group_real,
+    require  => Package[$nrpe_package_real],
   }
 }
